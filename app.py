@@ -310,7 +310,7 @@ df_ref["tahun"] = df_ref["tahun"].astype(int)
 # =========================================================
 st.sidebar.header("Input Parameter Prediksi")
 st.sidebar.info("""
-Pilih lokasi bank sampah dan tahun data. Sistem akan menggunakan data referensi dari dataset untuk melakukan prediksi status TPS.
+Pilih lokasi bank sampah. Sistem akan menggunakan data referensi dari dataset untuk melakukan prediksi status TPS.
 """)
 
 # =========================================================
@@ -347,7 +347,7 @@ nama_unit_bank_sampah = st.sidebar.selectbox(
 )
 
 # =========================================================
-# INPUT TAHUN BERDASARKAN LOKASI
+# TAHUN DIAMBIL OTOMATIS BERDASARKAN LOKASI
 # =========================================================
 if nama_unit_bank_sampah != bank_placeholder and not filtered_desa.empty:
     filtered_bank = filtered_desa[
@@ -362,11 +362,8 @@ else:
 if len(tahun_options) == 0:
     tahun_options = [2022]
 
-tahun = st.sidebar.selectbox(
-    "Tahun",
-    tahun_options,
-    index=len(tahun_options) - 1
-)
+# Tahun tidak diinput oleh user, otomatis memakai data terbaru yang tersedia
+tahun = tahun_options[-1]
 
 # =========================================================
 # AMBIL DATA REFERENSI BERDASARKAN PILIHAN
@@ -473,7 +470,6 @@ input_data = pd.DataFrame({
 # kapasitas_tps_kg sengaja tidak ditampilkan agar user tidak langsung menebak hasil prediksi
 preview_data = pd.DataFrame({
     "volume_sampah_kg": [volume_sampah_kg],
-    "tahun": [tahun],
     "alamat_missing_flag": [alamat_missing_flag],
     "bps_desa_kelurahan": [
         bps_desa_kelurahan if bps_desa_kelurahan != desa_placeholder else ""
@@ -489,7 +485,7 @@ preview_data = pd.DataFrame({
 section_title("📍 Ringkasan Lokasi")
 
 with st.container(border=True):
-    col_lokasi1, col_lokasi2, col_lokasi3 = st.columns(3)
+    col_lokasi1, col_lokasi2 = st.columns(2)
 
     with col_lokasi1:
         st.metric(
@@ -498,12 +494,6 @@ with st.container(border=True):
         )
 
     with col_lokasi2:
-        st.metric(
-            label="Tahun",
-            value=str(tahun) if tahun is not None else "-"
-        )
-
-    with col_lokasi3:
         st.metric(
             label="Volume Sampah",
             value=f"{volume_sampah_kg:.0f} kg"
@@ -689,7 +679,7 @@ if st.button("🚀 Lakukan Prediksi", use_container_width=True):
                 st.error("🤖 **Prediksi: TPS berstatus PENUH**")
 
                 st.markdown(f"""
-                Berdasarkan data lokasi, tahun, dan volume sampah sebesar **{volume_sampah_kg:.0f} kg**, 
+                Berdasarkan data lokasi dan volume sampah sebesar **{volume_sampah_kg:.0f} kg**,
                 sistem memprediksi bahwa TPS pada lokasi tersebut berada dalam kondisi **penuh**.
                 """)
 
@@ -702,7 +692,7 @@ if st.button("🚀 Lakukan Prediksi", use_container_width=True):
                 st.success("🤖 **Prediksi: TPS berstatus TIDAK PENUH**")
 
                 st.markdown(f"""
-                Berdasarkan data lokasi, tahun, dan volume sampah sebesar **{volume_sampah_kg:.0f} kg**, 
+                Berdasarkan data lokasi dan volume sampah sebesar **{volume_sampah_kg:.0f} kg**,
                 sistem memprediksi bahwa TPS pada lokasi tersebut masih dalam kondisi **tidak penuh**.
                 """)
 
@@ -746,7 +736,6 @@ if st.button("🚀 Lakukan Prediksi", use_container_width=True):
                 "Keterangan": [
                     "Desa/Kelurahan",
                     "Nama Unit Bank Sampah",
-                    "Tahun",
                     "Volume Sampah",
                     "Alamat Missing Flag",
                     "Hasil Prediksi"
@@ -754,7 +743,6 @@ if st.button("🚀 Lakukan Prediksi", use_container_width=True):
                 "Nilai": [
                     bps_desa_kelurahan,
                     nama_unit_bank_sampah,
-                    tahun,
                     f"{volume_sampah_kg:.0f} kg",
                     alamat_missing_flag,
                     hasil_label
