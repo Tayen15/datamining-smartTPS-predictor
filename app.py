@@ -392,9 +392,11 @@ with st.expander("Lihat Performa Model"):
         - ROC-AUC: 0.98
         """)
 
-with st.expander("Lihat Detail Internal untuk Keperluan Demo Dosen"):
+with st.expander("Lihat Detail Perhitungan Internal"):
     st.markdown("""
-    Bagian ini hanya untuk kebutuhan penjelasan teknis kepada dosen, bukan untuk tampilan utama pengguna.
+    Bagian ini menampilkan rincian teknis di balik hasil prediksi, seperti estimasi volume sampah,
+    kapasitas TPS referensi, dan rasio kapasitas. Informasi ini bersifat opsional dan dapat membantu
+    memahami bagaimana sistem mengolah data sebelum menghasilkan prediksi.
     """)
 
     detail_internal_df = pd.DataFrame({
