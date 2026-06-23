@@ -23,22 +23,170 @@ MODEL_METRICS = {
 st.set_page_config(
     page_title="Prediksi Status TPS",
     page_icon="♻️",
-    layout="centered"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-st.title("♻️ Prediksi Status TPS Berbasis Data Bank Sampah")
-
+# =========================================================
+# CUSTOM STYLING (TEMA ECO / HIJAU)
+# =========================================================
 st.markdown("""
-Aplikasi ini merupakan **prototype prediksi status TPS** menggunakan model **Random Forest Pipeline**.  
-Prediksi dilakukan berdasarkan data bank sampah dan fitur simulasi operasional yang merepresentasikan kondisi TPS pada wilayah terkait.
-""")
+<style>
+    /* Import font */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    html, body, [class*="css"] {
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* Background halaman */
+    .stApp {
+        background: linear-gradient(180deg, #f0fdf4 0%, #f8fafc 35%);
+    }
+
+    /* Lebar konten utama */
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 3rem;
+        max-width: 1100px;
+    }
+
+    /* Hero header */
+    .hero {
+        background: linear-gradient(120deg, #059669 0%, #10b981 50%, #34d399 100%);
+        padding: 2.4rem 2.6rem;
+        border-radius: 20px;
+        color: #ffffff;
+        box-shadow: 0 12px 30px rgba(16, 185, 129, 0.28);
+        margin-bottom: 1.6rem;
+    }
+    .hero h1 {
+        font-size: 2.1rem;
+        font-weight: 800;
+        margin: 0 0 0.5rem 0;
+        color: #ffffff;
+        line-height: 1.2;
+    }
+    .hero p {
+        font-size: 1.02rem;
+        margin: 0;
+        color: rgba(255, 255, 255, 0.92);
+        max-width: 720px;
+    }
+    .hero .badge {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        padding: 0.25rem 0.8rem;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.9rem;
+    }
+
+    /* Judul section */
+    .section-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #064e3b;
+        margin: 1.8rem 0 0.6rem 0;
+        padding-left: 0.7rem;
+        border-left: 4px solid #10b981;
+    }
+
+    /* Kartu metric */
+    [data-testid="stMetric"] {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 1rem 1.2rem;
+        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    [data-testid="stMetric"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.14);
+    }
+    [data-testid="stMetricLabel"] p {
+        font-weight: 600;
+        color: #64748b;
+    }
+    [data-testid="stMetricValue"] {
+        color: #064e3b;
+        font-weight: 700;
+    }
+
+    /* Tombol utama */
+    .stButton > button {
+        background: linear-gradient(120deg, #059669, #10b981);
+        color: #ffffff;
+        font-weight: 700;
+        border: none;
+        border-radius: 12px;
+        padding: 0.65rem 1.6rem;
+        font-size: 1rem;
+        box-shadow: 0 6px 16px rgba(16, 185, 129, 0.30);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 22px rgba(16, 185, 129, 0.40);
+        color: #ffffff;
+    }
+
+    /* Dataframe */
+    [data-testid="stDataFrame"] {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+    }
+
+    /* Sidebar */
+    [data-testid="stSidebar"] {
+        background: #ffffff;
+        border-right: 1px solid #e2e8f0;
+    }
+    [data-testid="stSidebar"] h2,
+    [data-testid="stSidebar"] h3 {
+        color: #064e3b;
+    }
+
+    /* Alert / info box sudut lebih halus */
+    [data-testid="stAlert"] {
+        border-radius: 12px;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# =========================================================
+# HERO HEADER
+# =========================================================
+st.markdown("""
+<div class="hero">
+    <div class="badge">♻️ SMART TPS PREDICTOR</div>
+    <h1>Prediksi Status TPS Berbasis Data Bank Sampah</h1>
+    <p>
+        Prototype prediksi status TPS menggunakan model <b>Random Forest Pipeline</b>,
+        memanfaatkan data bank sampah dan fitur simulasi operasional yang merepresentasikan
+        kondisi TPS pada wilayah terkait.
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
 st.info("""
-📌 **Catatan Penting:**  
-Data **volume sampah** yang ditampilkan pada aplikasi ini merupakan data simulasi/feature engineering.  
-Sementara itu, informasi kapasitas TPS digunakan secara internal oleh sistem berdasarkan data referensi, 
+📌 **Catatan Penting:**
+Data **volume sampah** yang ditampilkan pada aplikasi ini merupakan data simulasi/feature engineering.
+Sementara itu, informasi kapasitas TPS digunakan secara internal oleh sistem berdasarkan data referensi,
 bukan ditampilkan sebagai input pengguna.
 """)
+
+# =========================================================
+# HELPER TAMPILAN
+# =========================================================
+def section_title(text):
+    st.markdown(f'<div class="section-title">{text}</div>', unsafe_allow_html=True)
+
 
 # =========================================================
 # LOAD MODEL DAN DATASET
@@ -288,9 +436,40 @@ preview_data = pd.DataFrame({
 })
 
 # =========================================================
+# RINGKASAN LOKASI
+# =========================================================
+section_title("📍 Ringkasan Lokasi")
+
+with st.container(border=True):
+    col_lokasi1, col_lokasi2, col_lokasi3 = st.columns(3)
+
+    with col_lokasi1:
+        st.metric(
+            label="Desa/Kelurahan",
+            value=bps_desa_kelurahan if bps_desa_kelurahan != desa_placeholder else "-"
+        )
+
+    with col_lokasi2:
+        st.metric(
+            label="Tahun",
+            value=str(tahun) if tahun is not None else "-"
+        )
+
+    with col_lokasi3:
+        st.metric(
+            label="Volume Sampah",
+            value=f"{volume_sampah_kg:.0f} kg"
+        )
+
+    st.markdown(f"""
+    **Nama Unit Bank Sampah:**
+    {nama_unit_bank_sampah if nama_unit_bank_sampah != bank_placeholder else "-"}
+    """)
+
+# =========================================================
 # PREVIEW DATA INPUT
 # =========================================================
-st.subheader("Preview Data Input")
+section_title("🗂️ Preview Data Input")
 
 st.markdown("""
 Data berikut adalah input yang ditampilkan kepada pengguna sebelum dilakukan prediksi.
@@ -307,38 +486,9 @@ Catatan: Beberapa fitur referensi digunakan secara internal oleh sistem agar mod
 """)
 
 # =========================================================
-# RINGKASAN LOKASI
-# =========================================================
-st.subheader("Ringkasan Lokasi")
-
-col_lokasi1, col_lokasi2 = st.columns(2)
-
-with col_lokasi1:
-    st.metric(
-        label="Desa/Kelurahan",
-        value=bps_desa_kelurahan if bps_desa_kelurahan != desa_placeholder else "-"
-    )
-
-with col_lokasi2:
-    st.metric(
-        label="Tahun",
-        value=str(tahun) if tahun is not None else "-"
-    )
-
-st.markdown(f"""
-**Nama Unit Bank Sampah:**  
-{nama_unit_bank_sampah if nama_unit_bank_sampah != bank_placeholder else "-"}
-""")
-
-st.metric(
-    label="Volume Sampah",
-    value=f"{volume_sampah_kg:.0f} kg"
-)
-
-# =========================================================
 # STATUS DATA INPUT
 # =========================================================
-st.subheader("Status Data Input")
+section_title("✅ Status Data Input")
 
 if error_messages:
     for error in error_messages:
@@ -353,10 +503,10 @@ if volume_sampah_kg > 0 and kapasitas_tps_kg > 0:
 # =========================================================
 # INFORMASI MODEL
 # =========================================================
-st.subheader("Informasi Model")
+section_title("🧠 Informasi Model")
 
 st.markdown("""
-Model yang digunakan adalah **Random Forest Pipeline**.  
+Model yang digunakan adalah **Random Forest Pipeline**.
 Pipeline ini memungkinkan sistem menerima data mentah dari pengguna, kemudian melakukan preprocessing dan klasifikasi secara otomatis.
 """)
 
@@ -468,9 +618,9 @@ def get_prediction_probabilities(model, data):
 # =========================================================
 # TOMBOL PREDIKSI
 # =========================================================
-st.subheader("Prediksi Status TPS")
+section_title("🔮 Prediksi Status TPS")
 
-if st.button("Lakukan Prediksi"):
+if st.button("🚀 Lakukan Prediksi", use_container_width=True):
     if error_messages:
         for error in error_messages:
             st.error(f"❌ {error}")
@@ -485,7 +635,7 @@ if st.button("Lakukan Prediksi"):
                 input_data
             )
 
-            st.subheader("Hasil Prediksi")
+            section_title("🤖 Hasil Prediksi")
 
             if is_prediction_penuh(prediction_value):
                 st.error("🤖 **Prediksi: TPS berstatus PENUH**")
@@ -515,7 +665,7 @@ if st.button("Lakukan Prediksi"):
 
             # Probabilitas Prediksi
             if confidence is not None:
-                st.subheader("Probabilitas Prediksi")
+                section_title("📊 Probabilitas Prediksi")
 
                 col_prob1, col_prob2, col_prob3 = st.columns(3)
 
@@ -540,7 +690,7 @@ if st.button("Lakukan Prediksi"):
                 st.info("Model ini belum mendukung tampilan probabilitas karena tidak tersedia fungsi `predict_proba`.")
 
             # Ringkasan Hasil
-            st.subheader("Ringkasan Input dan Hasil")
+            section_title("📋 Ringkasan Input dan Hasil")
 
             hasil_label = "Penuh" if is_prediction_penuh(prediction_value) else "Tidak Penuh"
 
