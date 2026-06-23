@@ -28,12 +28,25 @@ st.set_page_config(
 )
 
 # =========================================================
-# CUSTOM STYLING (TEMA ECO / HIJAU)
+# CUSTOM STYLING (TEMA DARK / HIJAU)
 # =========================================================
 st.markdown("""
 <style>
     /* Import font */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    /* Palet warna dark */
+    :root {
+        --bg-base: #0f1418;
+        --bg-card: #1c232c;       /* abu gelap agak cerah */
+        --bg-card-hover: #232c37;
+        --border: #2d3742;
+        --text-main: #e6edf3;
+        --text-muted: #9aa7b4;
+        --green: #10b981;
+        --green-light: #34d399;
+        --green-dark: #059669;
+    }
 
     html, body, [class*="css"] {
         font-family: 'Inter', sans-serif;
@@ -41,7 +54,19 @@ st.markdown("""
 
     /* Background halaman */
     .stApp {
-        background: linear-gradient(180deg, #f0fdf4 0%, #f8fafc 35%);
+        background:
+            radial-gradient(1200px 600px at 80% -10%, rgba(16, 185, 129, 0.10), transparent 60%),
+            linear-gradient(180deg, #0d1216 0%, #0f1418 40%, #11171d 100%);
+        color: var(--text-main);
+    }
+
+    /* Teks umum tetap terang */
+    .stApp, .stApp p, .stApp li, .stApp span, .stApp label,
+    .stMarkdown, [data-testid="stMarkdownContainer"] {
+        color: var(--text-main);
+    }
+    .stApp h1, .stApp h2, .stApp h3, .stApp h4 {
+        color: #f1f5f9;
     }
 
     /* Lebar konten utama */
@@ -53,11 +78,12 @@ st.markdown("""
 
     /* Hero header */
     .hero {
-        background: linear-gradient(120deg, #059669 0%, #10b981 50%, #34d399 100%);
+        background: linear-gradient(120deg, #064e3b 0%, #059669 55%, #10b981 100%);
         padding: 2.4rem 2.6rem;
         border-radius: 20px;
         color: #ffffff;
-        box-shadow: 0 12px 30px rgba(16, 185, 129, 0.28);
+        border: 1px solid rgba(52, 211, 153, 0.25);
+        box-shadow: 0 12px 36px rgba(16, 185, 129, 0.22);
         margin-bottom: 1.6rem;
     }
     .hero h1 {
@@ -75,7 +101,7 @@ st.markdown("""
     }
     .hero .badge {
         display: inline-block;
-        background: rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.16);
         border: 1px solid rgba(255, 255, 255, 0.35);
         padding: 0.25rem 0.8rem;
         border-radius: 999px;
@@ -83,37 +109,39 @@ st.markdown("""
         font-weight: 600;
         letter-spacing: 0.04em;
         margin-bottom: 0.9rem;
+        color: #ffffff;
     }
 
     /* Judul section */
     .section-title {
         font-size: 1.25rem;
         font-weight: 700;
-        color: #064e3b;
+        color: var(--green-light);
         margin: 1.8rem 0 0.6rem 0;
         padding-left: 0.7rem;
-        border-left: 4px solid #10b981;
+        border-left: 4px solid var(--green);
     }
 
     /* Kartu metric */
     [data-testid="stMetric"] {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
         border-radius: 14px;
         padding: 1rem 1.2rem;
-        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
-        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+        transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
     }
     [data-testid="stMetric"]:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.14);
+        border-color: rgba(16, 185, 129, 0.45);
+        box-shadow: 0 10px 24px rgba(16, 185, 129, 0.18);
     }
     [data-testid="stMetricLabel"] p {
         font-weight: 600;
-        color: #64748b;
+        color: var(--text-muted);
     }
     [data-testid="stMetricValue"] {
-        color: #064e3b;
+        color: var(--green-light);
         font-weight: 700;
     }
 
@@ -131,25 +159,45 @@ st.markdown("""
     }
     .stButton > button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 10px 22px rgba(16, 185, 129, 0.40);
+        box-shadow: 0 10px 22px rgba(16, 185, 129, 0.45);
         color: #ffffff;
+    }
+
+    /* Input, selectbox, number input */
+    [data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] > div,
+    .stSelectbox div[data-baseweb="select"] > div,
+    .stNumberInput input,
+    .stTextInput input {
+        background-color: #131a21;
+        border: 1px solid var(--border);
+        color: var(--text-main);
     }
 
     /* Dataframe */
     [data-testid="stDataFrame"] {
         border-radius: 12px;
         overflow: hidden;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--border);
+    }
+
+    /* Expander */
+    [data-testid="stExpander"] {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+    }
+    [data-testid="stExpander"] summary {
+        color: var(--text-main);
     }
 
     /* Sidebar */
     [data-testid="stSidebar"] {
-        background: #ffffff;
-        border-right: 1px solid #e2e8f0;
+        background: #131a21;
+        border-right: 1px solid var(--border);
     }
     [data-testid="stSidebar"] h2,
     [data-testid="stSidebar"] h3 {
-        color: #064e3b;
+        color: var(--green-light);
     }
 
     /* Alert / info box sudut lebih halus */
