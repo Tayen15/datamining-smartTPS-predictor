@@ -32,10 +32,10 @@ st.set_page_config(
 # =========================================================
 st.markdown("""
 <style>
-    /* Import font */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    /* Import font lucu & bulat */
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Baloo+2:wght@500;600;700;800&display=swap');
 
-    /* Palet warna dark */
+    /* Palet warna hijau yang ceria & menggemaskan */
     :root {
         --bg-base: #0f1418;
         --bg-card: #1c232c;       /* abu gelap agak cerah */
@@ -46,16 +46,20 @@ st.markdown("""
         --green: #10b981;
         --green-light: #34d399;
         --green-dark: #059669;
+        --green-mint: #6ee7b7;     /* hijau mint pastel */
+        --green-soft: #a7f3d0;
     }
 
     html, body, [class*="css"] {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Quicksand', sans-serif;
     }
 
-    /* Background halaman */
+    /* Background halaman dengan bola-bola hijau lembut yang lucu */
     .stApp {
         background:
-            radial-gradient(1200px 600px at 80% -10%, rgba(16, 185, 129, 0.10), transparent 60%),
+            radial-gradient(520px 520px at 88% -8%, rgba(110, 231, 183, 0.12), transparent 62%),
+            radial-gradient(420px 420px at -6% 12%, rgba(16, 185, 129, 0.10), transparent 60%),
+            radial-gradient(360px 360px at 18% 108%, rgba(52, 211, 153, 0.08), transparent 60%),
             linear-gradient(180deg, #0d1216 0%, #0f1418 40%, #11171d 100%);
         color: var(--text-main);
     }
@@ -67,6 +71,7 @@ st.markdown("""
     }
     .stApp h1, .stApp h2, .stApp h3, .stApp h4 {
         color: #f1f5f9;
+        font-family: 'Baloo 2', 'Quicksand', cursive;
     }
 
     /* Lebar konten utama */
@@ -76,134 +81,197 @@ st.markdown("""
         max-width: 1100px;
     }
 
-    /* Hero header */
+    /* Hero header yang membulat & ceria */
     .hero {
-        background: linear-gradient(120deg, #064e3b 0%, #059669 55%, #10b981 100%);
-        padding: 2.4rem 2.6rem;
-        border-radius: 20px;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(120deg, #064e3b 0%, #059669 50%, #34d399 100%);
+        padding: 2.6rem 2.8rem;
+        border-radius: 32px;
         color: #ffffff;
-        border: 1px solid rgba(52, 211, 153, 0.25);
-        box-shadow: 0 12px 36px rgba(16, 185, 129, 0.22);
+        border: 3px solid rgba(167, 243, 208, 0.45);
+        box-shadow: 0 18px 44px rgba(16, 185, 129, 0.28);
         margin-bottom: 1.6rem;
     }
+    /* Gelembung dekoratif lucu di sudut hero */
+    .hero::before {
+        content: "";
+        position: absolute;
+        top: -45px; right: -30px;
+        width: 170px; height: 170px;
+        background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.30), rgba(255,255,255,0) 70%);
+        border-radius: 50%;
+    }
+    .hero::after {
+        content: "🌱";
+        position: absolute;
+        bottom: -10px; right: 26px;
+        font-size: 4.4rem;
+        opacity: 0.30;
+        transform: rotate(-12deg);
+    }
     .hero h1 {
-        font-size: 2.1rem;
+        font-family: 'Baloo 2', cursive;
+        font-size: 2.25rem;
         font-weight: 800;
         margin: 0 0 0.5rem 0;
         color: #ffffff;
         line-height: 1.2;
+        text-shadow: 0 2px 0 rgba(4, 78, 59, 0.35);
     }
     .hero p {
-        font-size: 1.02rem;
+        font-size: 1.04rem;
+        font-weight: 500;
         margin: 0;
-        color: rgba(255, 255, 255, 0.92);
+        color: rgba(255, 255, 255, 0.94);
         max-width: 720px;
+        position: relative;
+        z-index: 1;
     }
     .hero .badge {
         display: inline-block;
-        background: rgba(255, 255, 255, 0.16);
-        border: 1px solid rgba(255, 255, 255, 0.35);
-        padding: 0.25rem 0.8rem;
+        background: rgba(255, 255, 255, 0.20);
+        border: 2px solid rgba(255, 255, 255, 0.50);
+        padding: 0.3rem 1rem;
         border-radius: 999px;
-        font-size: 0.78rem;
-        font-weight: 600;
-        letter-spacing: 0.04em;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
         margin-bottom: 0.9rem;
         color: #ffffff;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
     }
 
-    /* Judul section */
+    /* Judul section dengan pil membulat yang gemas */
     .section-title {
-        font-size: 1.25rem;
+        display: inline-block;
+        font-family: 'Baloo 2', cursive;
+        font-size: 1.2rem;
         font-weight: 700;
         color: var(--green-light);
-        margin: 1.8rem 0 0.6rem 0;
-        padding-left: 0.7rem;
-        border-left: 4px solid var(--green);
+        margin: 1.9rem 0 0.7rem 0;
+        padding: 0.35rem 1.1rem 0.35rem 0.9rem;
+        border: none;
+        background: rgba(16, 185, 129, 0.12);
+        border-radius: 999px;
+        box-shadow: inset 0 0 0 2px rgba(52, 211, 153, 0.22);
     }
 
-    /* Kartu metric */
+    /* Kartu metric bulat & memantul saat disentuh */
     [data-testid="stMetric"] {
         background: var(--bg-card);
-        border: 1px solid var(--border);
-        border-radius: 14px;
+        border: 2px solid var(--border);
+        border-radius: 22px;
         padding: 1rem 1.2rem;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
-        transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.30);
+        transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease, border-color 0.18s ease;
     }
     [data-testid="stMetric"]:hover {
-        transform: translateY(-2px);
-        border-color: rgba(16, 185, 129, 0.45);
-        box-shadow: 0 10px 24px rgba(16, 185, 129, 0.18);
+        transform: translateY(-4px) scale(1.02);
+        border-color: rgba(110, 231, 183, 0.65);
+        box-shadow: 0 14px 28px rgba(16, 185, 129, 0.22);
     }
     [data-testid="stMetricLabel"] p {
         font-weight: 600;
         color: var(--text-muted);
     }
     [data-testid="stMetricValue"] {
-        color: var(--green-light);
+        color: var(--green-mint);
         font-weight: 700;
     }
 
-    /* Tombol utama */
+    /* Tombol utama bulat, empuk & memantul */
     .stButton > button {
-        background: linear-gradient(120deg, #059669, #10b981);
+        background: linear-gradient(120deg, #059669, #10b981 60%, #34d399);
         color: #ffffff;
+        font-family: 'Baloo 2', cursive;
         font-weight: 700;
+        letter-spacing: 0.02em;
         border: none;
-        border-radius: 12px;
-        padding: 0.65rem 1.6rem;
-        font-size: 1rem;
-        box-shadow: 0 6px 16px rgba(16, 185, 129, 0.30);
-        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        border-radius: 999px;
+        padding: 0.7rem 1.8rem;
+        font-size: 1.02rem;
+        box-shadow: 0 8px 18px rgba(16, 185, 129, 0.35);
+        transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease;
     }
     .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 22px rgba(16, 185, 129, 0.45);
+        transform: translateY(-3px) scale(1.03);
+        box-shadow: 0 14px 26px rgba(16, 185, 129, 0.50);
         color: #ffffff;
     }
+    .stButton > button:active {
+        transform: translateY(0) scale(0.98);
+    }
 
-    /* Input, selectbox, number input */
+    /* Input, selectbox, number input yang membulat */
     [data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] > div,
     .stSelectbox div[data-baseweb="select"] > div,
     .stNumberInput input,
     .stTextInput input {
         background-color: #131a21;
-        border: 1px solid var(--border);
+        border: 2px solid var(--border);
+        border-radius: 14px;
         color: var(--text-main);
     }
-
-    /* Dataframe */
-    [data-testid="stDataFrame"] {
-        border-radius: 12px;
-        overflow: hidden;
-        border: 1px solid var(--border);
+    .stSelectbox div[data-baseweb="select"] > div:focus-within,
+    .stNumberInput input:focus,
+    .stTextInput input:focus {
+        border-color: var(--green-light);
     }
 
-    /* Expander */
+    /* Dataframe membulat */
+    [data-testid="stDataFrame"] {
+        border-radius: 18px;
+        overflow: hidden;
+        border: 2px solid var(--border);
+    }
+
+    /* Expander menggemaskan */
     [data-testid="stExpander"] {
         background: var(--bg-card);
-        border: 1px solid var(--border);
-        border-radius: 12px;
+        border: 2px solid var(--border);
+        border-radius: 18px;
+        transition: border-color 0.18s ease;
+    }
+    [data-testid="stExpander"]:hover {
+        border-color: rgba(52, 211, 153, 0.40);
     }
     [data-testid="stExpander"] summary {
         color: var(--text-main);
+        font-weight: 600;
     }
 
-    /* Sidebar */
+    /* Sidebar lembut */
     [data-testid="stSidebar"] {
         background: #131a21;
-        border-right: 1px solid var(--border);
+        border-right: 2px solid var(--border);
     }
     [data-testid="stSidebar"] h2,
     [data-testid="stSidebar"] h3 {
         color: var(--green-light);
+        font-family: 'Baloo 2', cursive;
     }
 
-    /* Alert / info box sudut lebih halus */
+    /* Alert / info box sudut bulat & empuk */
     [data-testid="stAlert"] {
-        border-radius: 12px;
+        border-radius: 18px;
     }
+
+    /* Container border membulat */
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        border-radius: 20px;
+    }
+
+    /* Footer mungil yang lucu */
+    .cute-footer {
+        text-align: center;
+        margin-top: 2.6rem;
+        padding: 1rem;
+        color: var(--text-muted);
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+    .cute-footer span { color: var(--green-mint); }
 </style>
 """, unsafe_allow_html=True)
 
@@ -212,12 +280,12 @@ st.markdown("""
 # =========================================================
 st.markdown("""
 <div class="hero">
-    <div class="badge">♻️ SMART TPS PREDICTOR</div>
-    <h1>Prediksi Status TPS Berbasis Data Bank Sampah</h1>
+    <div class="badge">♻️ SMART TPS PREDICTOR ✨</div>
+    <h1>Prediksi Status TPS Berbasis Data Bank Sampah 🗑️💚</h1>
     <p>
-        Prototype prediksi status TPS menggunakan model <b>Random Forest Pipeline</b>,
-        memanfaatkan data bank sampah dan fitur simulasi operasional yang merepresentasikan
-        kondisi TPS pada wilayah terkait.
+        Hai! 👋 Prototype mungil ini memprediksi status TPS menggunakan model
+        <b>Random Forest Pipeline</b>, memanfaatkan data bank sampah dan fitur simulasi
+        operasional yang merepresentasikan kondisi TPS pada wilayah terkait. Yuk, dicoba~ 🌿
     </p>
 </div>
 """, unsafe_allow_html=True)
@@ -570,8 +638,6 @@ with st.expander("Lihat Performa Model"):
         st.info("""
         Nilai performa model belum diisi pada kode aplikasi.
 
-        Silakan isi bagian `MODEL_METRICS` di atas sesuai hasil evaluasi dari `modeling.ipynb`.
-
         Contoh:
         - Accuracy: 0.95
         - Precision: 0.96
@@ -764,3 +830,13 @@ if st.button("🚀 Lakukan Prediksi", use_container_width=True):
             3. Ada kategori baru yang tidak dikenali model.
             4. File model `rf_pipeline.pkl` belum dibuat ulang setelah perubahan dataset.
             """)
+
+# =========================================================
+# FOOTER LUCU
+# =========================================================
+st.markdown("""
+<div class="cute-footer">
+    Dibuat dengan <span>💚</span> untuk lingkungan yang lebih bersih ·
+    <span>Smart TPS Predictor</span> 🌿♻️
+</div>
+""", unsafe_allow_html=True)
